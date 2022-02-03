@@ -21,15 +21,16 @@ s = requests.Session()
 # Make a POST request to the website
 response = s.post('https://bsd.sos.mo.gov/BusinessEntity/BESearch.aspx', headers=headers, data=data)
 
+path = 'response.html'
+soup = BeautifulSoup(open(path),'html.parser')
+
 # Write response to an html file
 f = open("response.html", "w")
 f.truncate(0)
-f.write(response.text)
+f.write(soup.prettify())
 f.close()
 
 # Convert website info to CSV
-path = 'response.html'
-soup = BeautifulSoup(open(path),'html.parser')
 header = soup.find_all("table", id="ctl00_ctl00_ContentPlaceHolderMain_ContentPlaceHolderMainSingle_ppBESearch_bsPanel_SearchResultGrid_ctl00")[0].find("thead")
 
 headers = [th.text.encode("utf-8") for th in header.select("tr th")]
