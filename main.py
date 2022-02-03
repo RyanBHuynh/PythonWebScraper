@@ -48,14 +48,23 @@ f.write(response.text)
 f.close()
 
 # Convert website info to CSV
-
-list_header = []
 path = 'response.html'
 soup = BeautifulSoup(open(path),'html.parser')
 header = soup.find_all("table", id="ctl00_ctl00_ContentPlaceHolderMain_ContentPlaceHolderMainSingle_ppBESearch_bsPanel_SearchResultGrid_ctl00")[0].find("thead")
 
 headers = [th.text.encode("utf-8") for th in header.select("tr th")]
+headers = headers[4:]
+
+# Remove leading and trailing characters
+for i in range(len(headers)):
+  headers[i] = str(headers[i])
+  headers[i] = headers[i].lstrip("'b")
+  headers[i] = headers[i].rstrip("'")
+
+# Remove extraneous heading
+headers.pop(4)
 print(headers)
+
 
 
 # HTML_data = soup.find_all("table", id="ctl00_ctl00_ContentPlaceHolderMain_ContentPlaceHolderMainSingle_ppBESearch_bsPanel_SearchResultGrid_ctl00")[0].find("tr")
