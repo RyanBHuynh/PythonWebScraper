@@ -1,19 +1,20 @@
 import requests
 from bs4 import BeautifulSoup
 
-cookies = {
-    'ASP.NET_SessionId': 'rz5a4k5tsdldxwqjx0jxoua2',
-    'loggedInLobIDCookie': '1',
-    'tw_co_rcOZLj': '%7B%22widget_opened%22%3Afalse%7D',
-}
+# Code from cURL converter
+# cookies = {
+#     'ASP.NET_SessionId': 'rz5a4k5tsdldxwqjx0jxoua2',
+#     'loggedInLobIDCookie': '1',
+#     'tw_co_rcOZLj': '%7B%22widget_opened%22%3Afalse%7D',
+# }
+
+# params = (
+#     ('SearchType', '0'),
+# )
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:97.0) Gecko/20100101 Firefox/97.0'
 }
-
-params = (
-    ('SearchType', '0'),
-)
 
 data = {
   'ctl00_ctl00_RadStyleSheetManager_TSSM': ';Telerik.Web.UI, Version=2021.1.224.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4:en-US:668347d1-93a2-4485-86a0-60eda4ba4fe2:ed2942d4:45085116;Telerik.Web.UI.Skins, Version=2021.1.224.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4:en-US:573f9d36-3267-486b-8c31-15cd157e7db4:21513f52',
@@ -32,12 +33,16 @@ data = {
   'ctl00$ctl00$ContentPlaceHolderMain$ContentPlaceHolderMainSingle$ppBESearch$hdnBusinessEntitySearchControlID': 'ctl00_ctl00_ContentPlaceHolderMain_ContentPlaceHolderMainSingle_ppBESearch_bsPanel_stdbtnSearch_LinkStandardButton'
 }
 
-response = requests.post('https://bsd.sos.mo.gov/BusinessEntity/BESearch.aspx', headers=headers, params=params, data=data)
+# Make a POST request to the website
+response = requests.post('https://bsd.sos.mo.gov/BusinessEntity/BESearch.aspx', headers=headers, data=data)
 
-f = open("index.html", "w")
+# Write response to an html file
+f = open("response.html", "w")
 f.truncate(0)
 f.write(response.text)
 f.close()
+
+# Convert website info to CSV
 
 # list_header = []
 # path = 'index.html'
