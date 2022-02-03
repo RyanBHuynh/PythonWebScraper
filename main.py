@@ -1,7 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
+import csv
 
 # Code from cURL converter
+
 # cookies = {
 #     'ASP.NET_SessionId': 'rz5a4k5tsdldxwqjx0jxoua2',
 #     'loggedInLobIDCookie': '1',
@@ -33,8 +35,11 @@ data = {
   'ctl00$ctl00$ContentPlaceHolderMain$ContentPlaceHolderMainSingle$ppBESearch$hdnBusinessEntitySearchControlID': 'ctl00_ctl00_ContentPlaceHolderMain_ContentPlaceHolderMainSingle_ppBESearch_bsPanel_stdbtnSearch_LinkStandardButton'
 }
 
+# Create requests session
+s = requests.Session()
+
 # Make a POST request to the website
-response = requests.post('https://bsd.sos.mo.gov/BusinessEntity/BESearch.aspx', headers=headers, data=data)
+response = s.post('https://bsd.sos.mo.gov/BusinessEntity/BESearch.aspx', headers=headers, data=data)
 
 # Write response to an html file
 f = open("response.html", "w")
@@ -44,18 +49,14 @@ f.close()
 
 # Convert website info to CSV
 
-# list_header = []
-# path = 'index.html'
-# soup = BeautifulSoup(open(path),'html.parser')
-# header = soup.find_all("table", id="ctl00_ctl00_ContentPlaceHolderMain_ContentPlaceHolderMainSingle_ppBESearch_bsPanel_SearchResultGrid_ctl00")[0].find("thead")
-  
-# for items in header:
-#     try:
-#         list_header.append(items.get_text())
-#     except:
-#         continue
+list_header = []
+path = 'response.html'
+soup = BeautifulSoup(open(path),'html.parser')
+header = soup.find_all("table", id="ctl00_ctl00_ContentPlaceHolderMain_ContentPlaceHolderMainSingle_ppBESearch_bsPanel_SearchResultGrid_ctl00")[0].find("thead")
 
-# print(list_header)
+headers = [th.text.encode("utf-8") for th in header.select("tr th")]
+print(headers)
+
 
 # HTML_data = soup.find_all("table", id="ctl00_ctl00_ContentPlaceHolderMain_ContentPlaceHolderMainSingle_ppBESearch_bsPanel_SearchResultGrid_ctl00")[0].find("tr")
 
