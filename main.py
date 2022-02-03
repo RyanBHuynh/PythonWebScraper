@@ -2,6 +2,20 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 
+def removeLeadingAndTrailingCharacters(a_list):
+# Remove leading and trailing characters
+  i = 0
+  while i < len(a_list):
+    a_list[i] = str(a_list[i])
+    a_list[i] = a_list[i].lstrip("'b")
+    a_list[i] = a_list[i].rstrip("'")
+
+    if 'xc2' in a_list[i] or a_list[i] == '':
+      a_list.pop(i)
+
+    i += 1
+
+
 # Code from cURL converter
 
 headers = {
@@ -21,32 +35,32 @@ s = requests.Session()
 # Make a POST request to the website
 response = s.post('https://bsd.sos.mo.gov/BusinessEntity/BESearch.aspx', headers=headers, data=data)
 
-path = 'response.html'
-soup = BeautifulSoup(open(path),'html.parser')
-
 # Write response to an html file
 f = open("response.html", "w")
 f.truncate(0)
-f.write(soup.prettify())
+f.write(response.text)
 f.close()
 
 # Convert website info to CSV
+path = 'response.html'
+soup = BeautifulSoup(open(path),'html.parser')
 header = soup.find_all("table", id="ctl00_ctl00_ContentPlaceHolderMain_ContentPlaceHolderMainSingle_ppBESearch_bsPanel_SearchResultGrid_ctl00")[0].find("thead")
 
 headers = [th.text.encode("utf-8") for th in header.select("tr th")]
 headers = headers[4:]
 
 # Remove leading and trailing characters
-for i in range(len(headers)):
-  headers[i] = str(headers[i])
-  headers[i] = headers[i].lstrip("'b")
-  headers[i] = headers[i].rstrip("'")
+removeLeadingAndTrailingCharacters(headers)
 
 # Remove extraneous heading
-headers.pop(4)
 print(headers)
 
-
+#Get all the information in the body
+body = soup.find("table", id="ctl00_ctl00_ContentPlaceHolderMain_ContentPlaceHolderMainSingle_ppBESearch_bsPanel_SearchResultGrid_ctl00").find_all("tbody")[2]
+#print(body)
+body_as_list = [tr.text.encode("utf-8") for tr in body.select("tr td")]
+removeLeadingAndTrailingCharacters(body_as_list)
+print(body_as_list)
 
 # HTML_data = soup.find_all("table", id="ctl00_ctl00_ContentPlaceHolderMain_ContentPlaceHolderMainSingle_ppBESearch_bsPanel_SearchResultGrid_ctl00")[0].find("tr")
 
