@@ -1,3 +1,5 @@
+import requests
+from bs4 import BeautifulSoup
 import csv
 
 # This file stores all of the functions to be used in main.py
@@ -65,3 +67,45 @@ def write_table_to_csv(header_list, business_table, filename):
       write = csv.writer(f)
       write.writerow(header_list)
       write.writerows(business_table)
+
+# Purpose: Read business table data from a page and create a CSV file from the data
+# Parameters: A dictionary with the data from the page and a string that says which page we are on
+# Return values: None
+def get_business_data(data, page):
+    headers= {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:97.0) Gecko/20100101 Firefox/97.0'
+    }
+
+    # Create requests session
+    s = requests.Session()
+
+    # Make a POST request to the website
+    response = s.post('https://bsd.sos.mo.gov/BusinessEntity/BESearch.aspx', headers=headers, data=data)
+
+    path = "response_" + page + ".html"
+    # Write response to an html file
+    with open(path, "w") as f:
+        f.truncate(0) # Clear old file
+        f.write(response.text)
+
+    # Convert website info to CSV
+    soup = BeautifulSoup(open(path), 'html.parser')
+
+    # Get header
+    header_soup = soup.find_all("table",
+                                id="ctl00_ctl00_ContentPlaceHolderMain_ContentPlaceHolderMainSingle_ppBESearch_bsPanel_SearchResultGrid_ctl00")[0].find("thead")
+
+    headers = [th.text.encode("utf-8") for th in header_soup.select("tr th")]
+    headers = headers[4:]
+
+    # Remove leading and trailing characters and convert to string
+    reformat_list(headers)
+
+    # Get all the information in the body
+    body = soup.find("table",
+                     id="ctl00_ctl00_ContentPlaceHolderMain_ContentPlaceHolderMainSingle_ppBESearch_bsPanel_SearchResultGrid_ctl00").find_all("tbody")[2]
+
+    parsed_table = parse_body(body)
+
+    # Write data to CSV
+    write_table_to_csv(headers, parsed_table, page + ".csv")
