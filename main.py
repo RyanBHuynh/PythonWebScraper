@@ -42,18 +42,18 @@ def main():
     headers = headers[4:]
 
     # Remove leading and trailing characters and convert to string
-    functions.reformatList(headers)
+    functions.reformat_list(headers)
 
     # Get all the information in the body
     body = soup.find("table",
                      id="ctl00_ctl00_ContentPlaceHolderMain_ContentPlaceHolderMainSingle_ppBESearch_bsPanel_SearchResultGrid_ctl00").find_all("tbody")[2]
 
-    parsed_table = functions.parseBody(body)
+    parsed_table = functions.parse_body(body)
 
-    # # Write data to CSV
-    # with open("page1.csv","w") as f:
-    #   write = csv.writer(f)
-    #   write.writerow(headers)
-    #   write.writerows(parsed_table)
+    # Write data to CSV
+    with open("page1.csv","w") as f:
+      write = csv.writer(f)
+      write.writerow(headers)
+      write.writerows(parsed_table)
 
 main()
