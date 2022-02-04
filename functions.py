@@ -1,7 +1,10 @@
+import csv
+
 # This file stores all of the functions to be used in main.py
 
 # Purpose: convert all data to a string and remove any unnecessary data and characters
 # Parameters: a list of data from the table
+# Return values: None
 def reformat_list(a_list):
     # I use a while loop instead of a for loop because data is being removed from the list
     i = 0
@@ -54,6 +57,11 @@ def parse_body(body):
     return parsed_table
 
 
-
-def writeDataToCSV(business_table):
-    pass
+# Purpose: Takes headers and business_table and writes it to a CSV file
+# Parameters: a list and a string that has the file name
+# Return values: None
+def write_table_to_csv(header_list, business_table, filename):
+    with open(filename,"w") as f:
+      write = csv.writer(f)
+      write.writerow(header_list)
+      write.writerows(business_table)
