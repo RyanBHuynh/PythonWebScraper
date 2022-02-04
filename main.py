@@ -8,13 +8,13 @@ def removeLeadingAndTrailingCharacters(a_list):
   while i < len(a_list):
     a_list[i] = str(a_list[i])
     a_list[i] = a_list[i].lstrip("'b")
+    a_list[i] = a_list[i].lstrip("b")
     a_list[i] = a_list[i].rstrip("'")
 
     if r'xc2\xa0' in a_list[i] or a_list[i] == '' or 'False' in a_list[i] or 'True' in a_list[i]:
       a_list.pop(i)
 
     i += 1
-
 
 # Code from cURL converter
 
@@ -44,37 +44,43 @@ f.close()
 # Convert website info to CSV
 path = 'response.html'
 soup = BeautifulSoup(open(path),'html.parser')
-header = soup.find_all("table", id="ctl00_ctl00_ContentPlaceHolderMain_ContentPlaceHolderMainSingle_ppBESearch_bsPanel_SearchResultGrid_ctl00")[0].find("thead")
 
-headers = [th.text.encode("utf-8") for th in header.select("tr th")]
+#Get header
+header_soup = soup.find_all("table", id="ctl00_ctl00_ContentPlaceHolderMain_ContentPlaceHolderMainSingle_ppBESearch_bsPanel_SearchResultGrid_ctl00")[0].find("thead")
+headers = [th.text.encode("utf-8") for th in header_soup.select("tr th")]
 headers = headers[4:]
 
 # Remove leading and trailing characters
 removeLeadingAndTrailingCharacters(headers)
 
-# Remove extraneous heading
-print(headers)
+# #Convert bytes to string in headers
+# Remove extraneous characters in headers
+for i in range(len(headers)):
+  headers[i] = str(headers[i])
+  headers[i] = headers[i].lstrip("b'")
+  headers[i] = headers[i].rstrip("'")
 
 #Get all the information in the body
 body = soup.find("table", id="ctl00_ctl00_ContentPlaceHolderMain_ContentPlaceHolderMainSingle_ppBESearch_bsPanel_SearchResultGrid_ctl00").find_all("tbody")[2]
 
 body_as_list = [tr.text.encode("utf-8") for tr in body.select("tr td")]
 removeLeadingAndTrailingCharacters(body_as_list)
-#print(body_as_list)
+print(body_as_list)
 
+#Parse the information in the body
 res = []
-cur = []
+cur = [] #Store each line in cur
 
-i = 0
-while i < len(body_as_list):
-  if type(body_as_list[i]) == str and body_as_list[i].isnumeric() == True:
+#Loop through body_as_list
+for i in range(len(body_as_list)):
+  curString = body_as_list[i]
+  if type(curString) == str and len(curString) != 8 and curString.isnumeric() == True:
     if cur != []:
       res.append(cur)
       cur = []
   else:
     cur.append(body_as_list[i])
 
-  i += 1
-
+#Print res
 for i in range(len(res)):
   print(res[i])
