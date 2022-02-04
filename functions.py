@@ -1,3 +1,4 @@
+import re
 import requests
 from bs4 import BeautifulSoup
 import csv
@@ -55,6 +56,13 @@ def parse_body(body):
     for entry in parsed_table:
         reformat_list(entry)
         entry.pop(0)  # Remove duplicate title in each row
+
+        print(entry)
+        # Get rid of duplicate titles by checking if the second slot is a charter number or not
+        # We check the second slot if it's the right length, if it has a space, or if it has no numbers
+        # If any of the above are true, we remove it
+        if 1 < len(entry) and (' ' in entry[1] or bool(re.search(r'\d', entry[1])) == False):
+            entry.pop(1)
 
     return parsed_table
 
