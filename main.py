@@ -94,3 +94,10 @@ for entry in parsed_table:
     reformatList(entry)
     entry.pop(0)  # Remove duplicate title in each row
     print(entry)
+
+# Write data to CSV
+with open("page1.csv","w") as f:
+  write = csv.writer(f)
+
+  write.writerow(headers)
+  write.writerows(parsed_table)
