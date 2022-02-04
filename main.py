@@ -10,7 +10,7 @@ def removeLeadingAndTrailingCharacters(a_list):
     a_list[i] = a_list[i].lstrip("'b")
     a_list[i] = a_list[i].rstrip("'")
 
-    if 'xc2' in a_list[i] or a_list[i] == '':
+    if r'xc2\xa0' in a_list[i] or a_list[i] == '' or 'False' in a_list[i] or 'True' in a_list[i]:
       a_list.pop(i)
 
     i += 1
@@ -57,20 +57,24 @@ print(headers)
 
 #Get all the information in the body
 body = soup.find("table", id="ctl00_ctl00_ContentPlaceHolderMain_ContentPlaceHolderMainSingle_ppBESearch_bsPanel_SearchResultGrid_ctl00").find_all("tbody")[2]
-#print(body)
+
 body_as_list = [tr.text.encode("utf-8") for tr in body.select("tr td")]
 removeLeadingAndTrailingCharacters(body_as_list)
-print(body_as_list)
+#print(body_as_list)
 
-# HTML_data = soup.find_all("table", id="ctl00_ctl00_ContentPlaceHolderMain_ContentPlaceHolderMainSingle_ppBESearch_bsPanel_SearchResultGrid_ctl00")[0].find("tr")
+res = []
+cur = []
 
-# data_from_form = []
-# for element in HTML_data:
-#     sub_data = []
-#     for sub_element in element:
-#         try:
-#             sub_data.append(sub_element.get_text())
-#         except:
-#             continue
-#     data_from_form.append(sub_data)
-# print(data_from_form)
+i = 0
+while i < len(body_as_list):
+  if type(body_as_list[i]) == str and body_as_list[i].isnumeric() == True:
+    if cur != []:
+      res.append(cur)
+      cur = []
+  else:
+    cur.append(body_as_list[i])
+
+  i += 1
+
+for i in range(len(res)):
+  print(res[i])
