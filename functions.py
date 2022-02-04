@@ -50,14 +50,16 @@ def parse_body(body):
                 parsed_table.append(cur)
                 cur = []
         else:
-            cur.append(body_as_list[i])
+            cur.append(cur_string)
+
+    #Add the last row to parsed_table
+    parsed_table.append(cur)
 
     # Finish refining the table
     for entry in parsed_table:
         reformat_list(entry)
         entry.pop(0)  # Remove duplicate title in each row
 
-        print(entry)
         # Get rid of duplicate titles by checking if the second slot is a charter number or not
         # We check the second slot if it's the right length, if it has a space, or if it has no numbers
         # If any of the above are true, we remove it
