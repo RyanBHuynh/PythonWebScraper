@@ -10,9 +10,10 @@ Make sure you have these Python packages installed:
 - [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 - [requests](https://docs.python-requests.org/en/latest/)
 
-To install the packages, first install [pip](https://pip.pypa.io/en/stable/).
+To install the Python packages, first install [pip](https://pip.pypa.io/en/stable/).
 
 In order to use pip to install the packages, run these commands in your terminal:
+
 `pip install requests`
 
 `pip install beautifulsoup4`
