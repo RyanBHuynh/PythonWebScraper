@@ -82,7 +82,7 @@ def write_table_to_csv(header_list, business_table, filename):
 # Parameters: A dictionary with the data from the page and a string that says which page we are on
 # Return values: None
 def get_business_data(data, page):
-    headers= {
+    headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:97.0) Gecko/20100101 Firefox/97.0'
     }
 
