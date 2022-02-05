@@ -1,8 +1,9 @@
 # PythonWebScraper
+## Ryan Huynh
 
 A simple Python web scraper that grabs business info from the first two pages in Missouri’s Business Entity Search Tool for businesses that start with the letter A. 
 
-The data is stored in two CSV files.
+The program makes a POST request for each page and stores the response in an HTML file. The data from each HTML file is formatted and stored in a separate CSV file.
 
 ## Installing necessary packages
 
