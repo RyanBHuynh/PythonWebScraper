@@ -20,7 +20,9 @@ def reformat_list(a_list):
         a_list[i] = a_list[i].lstrip("b")
         a_list[i] = a_list[i].rstrip("'")
         a_list[i] = a_list[i].lstrip(r"\\n")
-        a_list[i] = a_list[i].rstrip(r"\\n")
+
+        if a_list[i][-3:] == r"\\n":
+            a_list[i] = a_list[i].rstrip(r"\\n")
 
         # Remove unnecessary strings
         if r'xc2\xa0' in a_list[i] or a_list[i] == '' or 'False' in a_list[i] or 'True' in a_list[i]:
