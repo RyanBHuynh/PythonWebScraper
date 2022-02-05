@@ -119,3 +119,5 @@ def get_business_data(data, page):
 
     # Write data to CSV
     write_table_to_csv(headers, parsed_table, page + ".csv")
+
+
