@@ -20,6 +20,6 @@ In order to use pip to install the packages, run these commands in your terminal
 
 ## Running the program
 To run the program, extract the zip file or clone the repository into your directory of choice.
-Then, change directory to that repository and run the following command:
+Then, change directory to the folder with the Python files and run the following command:
 
 `python3 main.py`
