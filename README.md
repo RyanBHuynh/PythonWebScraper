@@ -1,5 +1,4 @@
 # PythonWebScraper
-## Ryan Huynh
 
 A simple Python web scraper that grabs business info from the first two pages in Missouri’s Business Entity Search Tool for businesses that start with the letter A. 
 
