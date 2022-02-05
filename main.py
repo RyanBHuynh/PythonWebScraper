@@ -24,16 +24,19 @@ data_page_two = {
 }
 
 def main():
-    functions.get_business_data(data_page_one, "page1")
-    functions.get_business_data(data_page_two, "page2")
-
-    # Print info about the program
     print("Program executed")
+
+    functions.get_business_data(data_page_one, "page1")
     print("\nFiles created: ")
     print("     response_page1.html")
-    print("     response_page2.html")
     print("     page1.csv")
+
+    functions.get_business_data(data_page_two, "page2")
+    print("\nFiles created: ")
+    print("     response_page2.html")
     print("     page2.csv")
+
+    print("Program finished")
 
 main()
 
